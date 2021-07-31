@@ -1,5 +1,8 @@
 package com.lucqubica.module.book;
+
+import com.lucqubica.module.book.dto.BookDto;
 import com.lucqubica.module.book.entity.BookEntity;
+import com.lucqubica.module.book.mapper.BookMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -8,34 +11,36 @@ import java.util.List;
 
 @RestController
 public class BooksRestController {
-
     @Autowired
     private BookRepository bookRepository;
 
     @GetMapping("/api/book")
-    public List<BookEntity> getBooks() {
-        return bookRepository.findAll();
+    public List<BookDto> getBooks() {
+        List<BookEntity> books = bookRepository.findAll();
+        return BookMapper.map(books);
     }
 
     @GetMapping("/api/book/{id}")
-    public BookEntity getBook(@PathVariable Long id) {
-        return bookRepository.findOneById(id);
+    public BookDto getBook(@PathVariable Long id) {
+        BookEntity book = bookRepository.findOneById(id);
+        return BookMapper.map(book);
     }
 
     @PostMapping("/api/book")
-    public BookEntity newBook(@RequestBody @Valid BookEntity booksEntity) {
-        return bookRepository.saveAndFlush(booksEntity);
+    public BookDto newBook(@RequestBody @Valid BookEntity booksEntity) {
+        BookEntity book = bookRepository.saveAndFlush(booksEntity);
+        return BookMapper.map(book);
     }
 
     @PutMapping("/api/book/{id}")
-    public BookEntity updateBooks(@PathVariable Long id,
-                                  @RequestBody BookEntity booksEntity) {
-        return bookRepository.saveAndFlush(booksEntity.setId(id));
+    public BookDto updateBooks(@PathVariable Long id,
+                               @RequestBody BookEntity booksEntity) {
+        BookEntity book = bookRepository.saveAndFlush(booksEntity.setId(id));
+        return BookMapper.map(book);
     }
 
     @DeleteMapping("/api/book/{id}")
     public void deleteBook(@PathVariable Long id) {
         bookRepository.deleteById(id);
     }
-
 }
