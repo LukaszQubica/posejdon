@@ -1,4 +1,4 @@
-package com.lucqubica.module.book;
+package com.lucqubica.module.book.repository;
 
 import com.lucqubica.module.book.entity.BookEntity;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -29,8 +29,20 @@ public class BookEntity {
     @JoinColumn(name = "details_id", referencedColumnName = "id")
     private BookDetailsEntity details;
 
+    @Enumerated(EnumType.STRING)
+    private BookType type;
+
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
     private Set<BookTagEntity> tags;
+
+    public BookType getType() {
+        return type;
+    }
+
+    public BookEntity setType(BookType type) {
+        this.type = type;
+        return this;
+    }
 
     public Set<BookTagEntity> getTags() {
         return tags;
